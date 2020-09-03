@@ -17,11 +17,14 @@ class EmployeeControllerTest extends Specification {
     @SpringBean
     EmployeeService service = Mock()
 
-    def "get employees returns ok"() {
+    def "get employees returns employees"() {
         given: "the rest api"
         def url = "/employees"
         and: "a list of employees"
         def expectedEmployees = [new Employee(1L, "Hopper", "Grace")]
+        and: "expected json response"
+        def expectedJson = "[{\"id\":1,\"lastName\":\"Hopper\",\"firstName\":\"Grace\"}]"
+
 
         when: "rest api is called"
         def response = mockMvc.perform(MockMvcRequestBuilders.get(url)).andReturn().response
@@ -30,5 +33,7 @@ class EmployeeControllerTest extends Specification {
         response.getStatus() == HttpStatus.OK.value()
         and: "employee service was called"
         1 * service.getEmployees() >> expectedEmployees
+        and: "response has expected employees"
+        response.getContentAsString() == expectedJson
     }
 }

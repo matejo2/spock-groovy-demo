@@ -1,13 +1,19 @@
 package com.matejo.spockgroovydemo;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
+@Entity
 public class Employee {
 
     @javax.persistence.Id
-    public Long Id;
-    public String lastName;
-    public String firstName;
+    private Long id;
+    private String lastName;
+    private String firstName;
 }
