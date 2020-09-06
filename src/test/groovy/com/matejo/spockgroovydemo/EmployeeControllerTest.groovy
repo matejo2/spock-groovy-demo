@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.HttpStatus
 import org.springframework.test.web.servlet.MockMvc
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import spock.lang.Specification
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
 
 @WebMvcTest
 class EmployeeControllerTest extends Specification {
@@ -27,7 +28,7 @@ class EmployeeControllerTest extends Specification {
         def expectedEmployees = [new Employee(1L, "Hopper", "Grace")]
 
         when: "rest api is called"
-        def response = mockMvc.perform(MockMvcRequestBuilders.get(url)).andReturn().response
+        def response = mockMvc.perform(get(url)).andReturn().response
 
         then: "http status 200 ok was returned"
         response.getStatus() == HttpStatus.OK.value()
@@ -37,4 +38,16 @@ class EmployeeControllerTest extends Specification {
         response.getContentAsString() == mapper.writeValueAsString(expectedEmployees)
     }
 
+    def "get single employee"() {
+        given: "an id for an employee"
+        def id = 1L
+        def url = "/employees/$id"
+
+        when: "employee is gotten"
+        def response = mockMvc.perform(get(url)).andReturn().response
+
+        then: "employee was found"
+        and: "http status is ok"
+        response.status == HttpStatus.OK.value()
+    }
 }
