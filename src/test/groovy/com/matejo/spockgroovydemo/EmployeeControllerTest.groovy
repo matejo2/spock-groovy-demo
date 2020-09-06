@@ -39,15 +39,19 @@ class EmployeeControllerTest extends Specification {
     }
 
     def "get single employee"() {
-        given: "an id for an employee"
+        given: "an employee"
         def id = 1L
+        def employee = new Employee(id, "Lo", "Fi")
         def url = "/employees/$id"
 
         when: "employee is gotten"
         def response = mockMvc.perform(get(url)).andReturn().response
 
         then: "employee was found"
+        response.getContentAsString() == mapper.writeValueAsString(employee)
         and: "http status is ok"
         response.status == HttpStatus.OK.value()
+        and: "service was called"
+        1 * service.getEmployeeById(id) >> employee
     }
 }

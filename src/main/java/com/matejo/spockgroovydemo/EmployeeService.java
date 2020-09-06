@@ -17,4 +17,8 @@ public class EmployeeService {
         //return repository.findAll();
         return null;
     }
+
+    public Employee getEmployeeById(Long id) {
+        return null;
+    }
 }
