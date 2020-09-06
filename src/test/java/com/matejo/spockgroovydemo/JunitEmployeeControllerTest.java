@@ -24,9 +24,10 @@ class JunitEmployeeControllerTest {
     @MockBean
     private EmployeeService service;
 
+    ObjectMapper mapper = new ObjectMapper();
+
     @Test
     void basic_http_get() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
         var url = "/employees";
         List<Employee> expectedEmployees = new ArrayList<>();
         expectedEmployees.add(new Employee(1L, "ad", "asd"));
@@ -38,4 +39,16 @@ class JunitEmployeeControllerTest {
         assertThat(response.getContentAsString()).isEqualTo(mapper.writeValueAsString(expectedEmployees));
     }
 
+    @Test
+    void get_specific_employee() throws Exception {
+        var id = 1L;
+        var url = String.format("/employees/%d", id);
+        var employee = new Employee(id, "foo", "bar");
+        when(service.getEmployeeById(id)).thenReturn(employee);
+
+        var response = mockMvc.perform(get(url)).andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+        assertThat(response.getContentAsString()).isEqualTo(mapper.writeValueAsString(employee));
+    }
 }
