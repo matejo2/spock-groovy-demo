@@ -54,4 +54,18 @@ class EmployeeControllerTest extends Specification {
         and: "service was called"
         1 * service.getEmployeeById(id) >> employee
     }
+
+    def "not getting employee returns no content"() {
+        given: "an employee"
+        def id = 1L
+        def url = "/employees/$id"
+
+        when: "employee is gotten"
+        def response = mockMvc.perform(get(url)).andReturn().response
+
+        then: "http status is no Content"
+        response.status == HttpStatus.NO_CONTENT.value()
+        and: "service was called"
+        1 * service.getEmployeeById(id) >> null
+    }
 }

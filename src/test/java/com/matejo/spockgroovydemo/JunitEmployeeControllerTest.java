@@ -51,4 +51,15 @@ class JunitEmployeeControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
         assertThat(response.getContentAsString()).isEqualTo(mapper.writeValueAsString(employee));
     }
+
+    @Test
+    void not_getting_specific_employee_returns_no_content() throws Exception {
+        var id = 1L;
+        var url = String.format("/employees/%d", id);
+        when(service.getEmployeeById(id)).thenReturn(null);
+
+        var response = mockMvc.perform(get(url)).andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.NO_CONTENT.value());
+    }
 }
