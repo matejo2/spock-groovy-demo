@@ -1,5 +1,6 @@
 package com.matejo.spockgroovydemo;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,7 +16,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employees")
-    public List<Employee> getEmployees(){
-        return service.getEmployees();
+    public ResponseEntity<List<Employee>> getEmployees(){
+
+        return ResponseEntity.ok().body(service.getEmployees());
     }
 }
