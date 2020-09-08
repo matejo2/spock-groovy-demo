@@ -38,4 +38,14 @@ class EmployeeServiceTest extends Specification {
         and: "repo was called"
         1 * repository.findById(id) >> Optional.of(employee)
     }
+
+    def "not getting specific employee works"() {
+        when: "spefific employee is requested"
+        def response = service.getEmployeeById(3L)
+
+        then: "null was returned"
+        response == null
+        and: "repo was called"
+        1 * repository.findById(3L) >> Optional.empty()
+    }
 }
