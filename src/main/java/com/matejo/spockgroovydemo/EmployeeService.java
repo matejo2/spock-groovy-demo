@@ -14,8 +14,7 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployees(){
-        //return repository.findAll();
-        return null;
+        return repository.findAll();
     }
 
     public Employee getEmployeeById(Long id) {
