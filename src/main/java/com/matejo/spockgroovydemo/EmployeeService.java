@@ -18,6 +18,6 @@ public class EmployeeService {
     }
 
     public Employee getEmployeeById(Long id) {
-        return null;
+        return repository.findById(id).get();
     }
 }
