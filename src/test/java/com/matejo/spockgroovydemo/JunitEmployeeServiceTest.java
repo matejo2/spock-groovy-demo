@@ -8,6 +8,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -34,5 +35,24 @@ class JunitEmployeeServiceTest {
         when(repository.findAll()).thenReturn(expectedEmployees);
 
         assertThat(service.getEmployees()).isEqualTo(expectedEmployees);
+    }
+
+    @Test
+    void getting_employee_by_id() {
+        var id = 32L;
+        var expectedEmployee = new Employee(id, "Emily", "Bache");
+
+        when(repository.findById(id)).thenReturn(Optional.of(expectedEmployee));
+
+        assertThat(service.getEmployeeById(id)).isEqualTo(expectedEmployee);
+    }
+
+    @Test
+    void not_getting_employee_by_id() {
+        var id = 32L;
+
+        when(repository.findById(id)).thenReturn(Optional.empty());
+
+        assertThat(service.getEmployeeById(id)).isEqualTo(null);
     }
 }
