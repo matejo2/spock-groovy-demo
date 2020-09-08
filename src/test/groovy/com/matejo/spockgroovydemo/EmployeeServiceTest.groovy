@@ -11,7 +11,6 @@ class EmployeeServiceTest extends Specification {
     // alternativel: @SpringBootTest but this is not an integration test
     private EmployeeService service = new EmployeeService(repository)
 
-
     def "getting all employees from repo"() {
         given: "expected list of 2 employees"
         def expectedEmployees = [new Employee(1L, "foo", "ba"),
