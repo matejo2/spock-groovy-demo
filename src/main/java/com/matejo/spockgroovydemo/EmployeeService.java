@@ -21,4 +21,8 @@ public class EmployeeService {
         var employee = repository.findById(id);
         return employee.orElse(null);
     }
+
+    public Employee saveEmployee(Employee employee) {
+        return null;
+    }
 }

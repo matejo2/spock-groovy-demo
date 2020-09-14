@@ -85,6 +85,10 @@ class EmployeeControllerTest extends Specification {
 
         then: "status is created"
         response.status == HttpStatus.CREATED.value()
+        and: "body is added Employee"
+        response.getContentAsString() == mapper.writeValueAsString(newEmployee)
+        and: "service was called"
+        1 * service.saveEmployee(newEmployee) >> newEmployee
 
     }
 }
